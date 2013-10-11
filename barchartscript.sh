@@ -73,27 +73,17 @@ EOF
 # Script Functions
 
 # Browser settings are saved in LaunchServices... which is a giant array.
-#for (( i = 1; i < 100; i++ )); do
-#    handler=`/usr/libexec/PlistBuddy -c "print :LSHandlers:${i}:LSHandlerURLScheme" ~/Library/Preferences/com.apple.LaunchServices.plist 2>&1`
-#    handler2=`/usr/libexec/PlistBuddy -c "print :LSHandlers:${i}:LSHandlerRoleAll" ~/Library/Preferences/com.apple.LaunchServices.plist 2>&1`
-#    [ "${handler}" == "http" ] && { browserPlist="${handler2}"; }
-#done
-#      browser=`echo "${browserPlist}" | awk -F "." {'print $2'}`
-#     if [[ "${browser}" == "google" ]]; then
-#        open -a /Applications/Google\ Chrome.app "$TEMP".html
-#      elseif [[ "${browser}" == "mozilla" ]]; then
-#        open -a /Applications/Firefox.app "$TEMP".html
-#      else
-#        open -a /Applications/Safari.app "$TEMP".html
-#      fi
+for (( i = 1; i < 100; i++ )); do
+    handler=`/usr/libexec/PlistBuddy -c "print :LSHandlers:${i}:LSHandlerURLScheme" ~/Library/Preferences/com.apple.LaunchServices.plist 2>&1`
+    handler2=`/usr/libexec/PlistBuddy -c "print :LSHandlers:${i}:LSHandlerRoleAll" ~/Library/Preferences/com.apple.LaunchServices.plist 2>&1`
+    [ "${handler}" == "http" ] && { browserPlist="${handler2}"; }
+done
 
-# open browser
-case $(uname) in
-   Darwin)
-        open -a /Applications/Safari.app "$TEMP".html
-      ;;
-
-   Linux|SunOS)
-      firefox "$TEMP".html
-      ;;
-esac
+browser=`echo "${browserPlist}" | awk -F "." {'print $2'}`
+if [[ "${browser}" == "google" ]]; then
+  open -a /Applications/Google\ Chrome.app "$TEMP".html
+elif [[ "${browser}" == "mozilla" ]]; then
+  open -a /Applications/Firefox.app "$TEMP".html
+else
+  open -a /Applications/Safari.app "$TEMP".html
+fi
