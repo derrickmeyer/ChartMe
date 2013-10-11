@@ -21,7 +21,7 @@ declare -x SCRIPTNAME="${0##*/}"
 
 # Script Variables
 MY_JSS_BASEURL=$( /usr/bin/defaults read /Library/Preferences/com.jamfsoftware.jamf jss_url )
-JSS_FIRST_URL="${MY_JSS_BASEURL}"
+JSS_FIRST_URL="${MY_JSS_BASEURL}JSSResource/"
 JSS_REQUESTED_SUBITEM="computers"
 JSS_FULL_URL="${JSS_FIRST_URL}${JSS_REQUESTED_SUBITEM}"
 CURL_OPTIONS="-sk -H \"Accept: application/xml\""
@@ -32,7 +32,7 @@ JSS_PASS=""
 
 # Script Functions
 validate () {
-	[ "${JSS_FIRST_URL}" == "" ] && { echo -n -e "JSS FQDN (with port and slash at the end): "; read JSS_FIRST_URL; }
+	[ "${JSS_FIRST_URL}" == "JSSResource/" ] && { echo -n -e "JSS FQDN (with port and slash at the end): "; read JSS_FIRST_URL; }
 	[ "${JSS_ID}" == "" ] && { echo -n -e "JSS Username: "; read JSS_ID; }
 	[ "${JSS_PASS}" == "" ] && { echo -n -e "JSS Password: "; read JSS_PASS; }
 
