@@ -4,7 +4,7 @@
 # ALL scripts are covered by SRT's License found at:
 # https://raw.github.com/stonyrivertech/SRT-Public/master/LICENSE 
 
-# Created by Justin Rummel
+# Created by Jeremy Matthews
 # Version 1.0.0 - 2013-10-11
 
 # Modified by
