@@ -1,5 +1,22 @@
 #!/bin/bash
 
+# This script was developed BY Stony River Technologies (SRT)
+# ALL scripts are covered by SRT's License found at:
+# https://raw.github.com/stonyrivertech/SRT-Public/master/LICENSE 
+
+# Created by Justin Rummel
+# Version 1.0.0 - 2013-10-11
+
+# Modified by
+# Version 
+
+
+### Description 
+# Goal is to 
+
+# Script Variables
+
+# Script Functions
 MY_JSS_BASEURL=$( /usr/bin/defaults read /Library/Preferences/com.jamfsoftware.jamf jss_url )
 JSS_FIRST_URL=""
 JSS_REQUESTED_SUBITEM="computers"
