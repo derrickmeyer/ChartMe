@@ -34,12 +34,12 @@ JSS_PASS=""
 validate () {
 	[ "${JSS_FIRST_URL}" == "JSSResource/" ] && { echo -n -e "JSS FQDN (with port and slash at the end): "; read JSS_FIRST_URL; }
 	[ "${JSS_ID}" == "" ] && { echo -n -e "JSS Username: "; read JSS_ID; }
-	[ "${JSS_PASS}" == "" ] && { echo -n -e "JSS Password: "; read JSS_PASS; }
+	[ "${JSS_PASS}" == "" ] && { echo -n -e "JSS Password: "; read -s JSS_PASS; }
 
 	echo "Running ${SCRIPTNAME} with these settings"
 	echo -e "\t${JSS_FIRST_URL}"
 	echo -e "\t${JSS_ID}"
-	echo -e "\t${JSS_PASS}"
+#	echo -e "\t${JSS_PASS}"
 }
 
 chartMe () {
@@ -68,13 +68,12 @@ chartMe () {
 
 	IFS=$'\n'; 
 	arr=("$string2"); 
-	for i in ${arr[@]}; 
-	do 
-	##echo "mine" $i; 
-	string33=`curl -sk -H \"Accept: application/xml\" -u ${JSS_ID}:${JSS_PASS} $JSS_FULL_URL/id/$i ${END_URL} | xpath '(/computer/hardware/os_version)'`
-	string44=`echo "${string33}" | sed 's/\<\/id>/\<\/os_version>\'$'\n/g' | sed 's/\<os_version>//g' | sed 's/\<\/os_version>//g'`
-	echo "$string44" >> ~/Desktop/YYY.xml
-	echo "$string44" >> "${MY_TMPFILE}"
+	for i in ${arr[@]}; do 
+		##echo "mine" $i; 
+		string33=`curl -sk -H \"Accept: application/xml\" -u ${JSS_ID}:${JSS_PASS} $JSS_FULL_URL/id/$i ${END_URL} | xpath '(/computer/hardware/os_version)'`
+		string44=`echo "${string33}" | sed 's/\<\/id>/\<\/os_version>\'$'\n/g' | sed 's/\<os_version>//g' | sed 's/\<\/os_version>//g'`
+		echo "$string44" >> ~/Desktop/YYY.xml
+		echo "$string44" >> "${MY_TMPFILE}"
 	done
 
 	##works
