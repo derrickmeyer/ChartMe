@@ -2,7 +2,7 @@
 
 # This script was developed BY Stony River Technologies (SRT)
 # ALL scripts are covered by SRT's License found at:
-# https://raw.github.com/stonyrivertech/SRT-Public/master/LICENSE 
+# https://raw.github.com/stonyrivertech/SRT-Public/master/LICENSE
 
 # Created by Jeremy Matthews - Courtesy of Stony River Technologies
 # Version 1.0.0 - 2013-10-11
@@ -34,7 +34,7 @@ JSS_REQUESTED_SUBITEM="computers"
 JSS_FULL_URL="${JSS_API_URL}${JSS_REQUESTED_SUBITEM}"
 CURL_OPTIONS="-sk -H \"Accept: application/xml\""
 JSON_OR_XML="XML"
-JSS_ID="your_jss_username
+JSS_ID="your_jss_username"
 JSS_PASS="_your_jss_password"
 ## preserved variables below for debugging
 MY_TMPFILE_INPUT="/tmp/$RANDOM.xml"
@@ -66,21 +66,21 @@ chartMe () {
 	END_URL3="'(/computer/hardware/os_version)'"
 
 	## perform a scoped pull of the os_version information so we can then parse the data stream for relevant info
-	IFS=$'\n'; 
-	arr=("$string2"); 
-	for i in ${arr[@]}; do 
-		##echo "mine" $i; 
+	IFS=$'\n';
+	arr=("$string2");
+	for i in ${arr[@]}; do
+		##echo "mine" $i;
 		string33=`curl -sk -H \"Accept: application/xml\" -u ${JSS_ID}:${JSS_PASS} $JSS_FULL_URL/id/$i ${END_URL} | xpath '(/computer/hardware/os_version)'`
 		string44=`echo "${string33}" | sed 's/\<\/id>/\<\/os_version>\'$'\n/g' | sed 's/\<os_version>//g' | sed 's/\<\/os_version>//g'`
 		echo "$string44" >> "${MY_TMPFILE_INPUT}"
 	done
-		
+
 	leopardResultsCount=`awk '{ print $1}' "${MY_TMPFILE_INPUT}" | cut -c 1-4 | sort -n | uniq -c | sort -k2 -n | sed -e 's/^[ \t]*//' | grep 10.5 | cut -d \  -f 1`
 	snowLeopardResultsCount=`awk '{ print $1}' "${MY_TMPFILE_INPUT}" | cut -c 1-4 | sort -n | uniq -c | sort -k2 -n | sed -e 's/^[ \t]*//' | grep 10.6 | cut -d \  -f 1`
 	lionResultsCount=`awk '{ print $1}' "${MY_TMPFILE_INPUT}" | cut -c 1-4 | sort -n | uniq -c | sort -k2 -n | sed -e 's/^[ \t]*//' | grep 10.7 | cut -d \  -f 1`
 	mountainLionResultsCount=`awk '{ print $1}' "${MY_TMPFILE_INPUT}" | cut -c 1-4 | sort -n | uniq -c | sort -k2 -n | sed -e 's/^[ \t]*//' | grep 10.8 | cut -d \  -f 1`
 	mavericksResultsCount=`awk '{ print $1}' "${MY_TMPFILE_INPUT}" | cut -c 1-4 | sort -n | uniq -c | sort -k2 -n | sed -e 's/^[ \t]*//' | grep 10.9 | cut -d \  -f 1`
-	
+
 	## sanity and integrity check to ensure the variable returned from the previous function is, in fact, a number and not complete garbage
 	re='^[0-9]+$'
 	if ! [[ $leopardResultsCount =~ $re ]] ; then
@@ -102,14 +102,14 @@ chartMe () {
 	if ! [[ $mavericksResultsCount =~ $re ]] ; then
    		mavericksResultsCount=0
 	fi
-	
+
 	##DEBUG
 	##echo -e "leopard is $leopardResultsCount"
 	##echo -e "snow leopard is $snowLeopardResultsCount"
 	##echo -e "lion is $lionResultsCount"
 	##echo -e "mountain lion is $mountainLionResultsCount"
 	##echo -e "mavericks is $mavericksResultsCount"
-	
+
 ##prep chart creation
 TEMP=$(mktemp -t chart.XXXXX)
 cat > $TEMP <<EOF
